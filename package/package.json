@@ -1,6 +1,7 @@
 {
   "name": "@totems/evm",
-  "version": "1.0.0",
+  "version": "1.0.9",
+  "type": "module",
   "description": "Totems EVM smart contracts for building modular token systems",
   "author": "nsjames",
   "license": "MIT & AGPL-3.0",
@@ -21,15 +22,22 @@
   ],
   "files": [
     "contracts/**/*.sol",
-    "constants/**/*.sol",
     "interfaces/**/*.sol",
     "mods/**/*.sol",
     "test/**/*",
-    "LICENSE",
-    "package.json",
-    "README.md"
+    "artifacts/**/*"
   ],
+  "exports": {
+    "./test/helpers": {
+      "types": "./test/helpers.d.ts",
+      "default": "./test/helpers.ts"
+    },
+    "./contracts/*": "./contracts/*",
+    "./interfaces/*": "./interfaces/*",
+    "./mods/*": "./mods/*"
+  },
   "peerDependencies": {
-    "@openzeppelin/contracts": "^5.0.0"
+    "hardhat": "^3.1.4",
+    "viem": "^2.44.4"
   }
 }
