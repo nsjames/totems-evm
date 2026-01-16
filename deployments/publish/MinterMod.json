@@ -1,0 +1,15 @@
+{
+  "hooks": [0, 1, 3],
+  "price": "0",
+  "details": {
+    "name": "Just Mint",
+    "summary": "A simple minter that mints tokens by whatever amount the user specifies.",
+    "markdown": "",
+    "image": "ipfs://",
+    "website": "https://totems.fun",
+    "websiteTickerPath": "/mint/{ticker}",
+    "isMinter": true,
+    "needsUnlimited": false
+  },
+  "requiredActions": []
+}

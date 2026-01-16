@@ -1,0 +1,41 @@
+.idea
+.DS_Store
+.vscode
+
+# Node modules
+/node_modules
+
+# Compilation output
+/dist
+
+# pnpm deploy output
+/bundle
+
+# Hardhat Build Artifacts
+/artifacts
+
+# Hardhat compilation (v2) support directory
+/cache
+
+# Typechain output
+/types
+
+# Hardhat coverage reports
+/coverage
+
+# Package generated files (created by npm run package:build)
+/package/mods
+/package/interfaces
+/package/contracts
+/package/test
+
+.env
+.env.example
+!.env.example
+
+.claude
+.claude/*
+
+simulations/keys.jsons
+
+out/

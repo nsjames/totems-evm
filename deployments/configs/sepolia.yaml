@@ -1,0 +1,23 @@
+deployer: "0xc1937197F577F46462083c8271a70051E22a7810"
+rpcEnvVar: "SEPOLIA_RPC_URL"
+wsRpcEnvVar: "SEPOLIA_WS_URL"
+explorerUrl: "https://api.etherscan.io/v2/api"
+explorerApiKeyEnvVar: "ETHERSCAN_API_KEY"
+minBaseFee: "0.0001 ether"
+burnedFee: "0.00005 ether"
+mods:
+#  - MinterMod
+  - UnlimitedMinterMod
+#  - MinerMod
+publish:
+#  - MinterMod
+  - name: UnlimitedMinterMod
+#    price: "0.001 ether"
+
+referrers:
+  - address: "0xc1937197F577F46462083c8271a70051E22a7810"
+    fee: "0.0001 ether"
+
+totems:
+  - tickers: BULL, PURE, CHAD, YOLO, DIY, SIM, BUIDL, RANKED, DARK, LIGHT, MEME, FUN, VIP, DOGS, CATS
+    config: SIM

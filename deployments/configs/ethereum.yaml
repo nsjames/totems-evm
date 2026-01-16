@@ -1,0 +1,13 @@
+deployer: "0xc1937197F577F46462083c8271a70051E22a7810"
+rpcEnvVar: "ETHEREUM_RPC_URL"
+explorerUrl: "https://api.etherscan.io/v2/api"
+explorerApiKeyEnvVar: "ETHERSCAN_API_KEY"
+minBaseFee: "0.001 ether"
+burnedFee: "0.0005 ether"
+mods:
+  - MinterMod
+  - UnlimitedMinterMod
+publish:
+referrers:
+  - address: "0xc1937197F577F46462083c8271a70051E22a7810"
+    fee: "0.001 ether"

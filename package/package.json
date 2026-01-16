@@ -1,0 +1,35 @@
+{
+  "name": "@totems/evm",
+  "version": "1.0.0",
+  "description": "Totems EVM smart contracts for building modular token systems",
+  "author": "nsjames",
+  "license": "MIT & AGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nsjames/totems-evm",
+    "directory": "package"
+  },
+  "keywords": [
+    "solidity",
+    "ethereum",
+    "base",
+    "bsc",
+    "evm",
+    "tokens",
+    "smart-contracts",
+    "totems"
+  ],
+  "files": [
+    "contracts/**/*.sol",
+    "constants/**/*.sol",
+    "interfaces/**/*.sol",
+    "mods/**/*.sol",
+    "test/**/*",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "@openzeppelin/contracts": "^5.0.0"
+  }
+}

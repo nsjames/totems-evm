@@ -1,0 +1,999 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "enum ITotemTypes.Hook",
+        "name": "hook",
+        "type": "uint8"
+      }
+    ],
+    "name": "DuplicateHook",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "EmptyModImage",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "EmptyModName",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "EmptyModSummary",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "required",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "provided",
+        "type": "uint256"
+      }
+    ],
+    "name": "InsufficientFee",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidContractAddress",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "enum ITotemTypes.Hook",
+        "name": "hook",
+        "type": "uint8"
+      }
+    ],
+    "name": "InvalidHook",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "mod",
+        "type": "address"
+      }
+    ],
+    "name": "ModAlreadyPublished",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "length",
+        "type": "uint256"
+      }
+    ],
+    "name": "ModNameTooLong",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "length",
+        "type": "uint256"
+      }
+    ],
+    "name": "ModNameTooShort",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "mod",
+        "type": "address"
+      }
+    ],
+    "name": "ModNotFound",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "length",
+        "type": "uint256"
+      }
+    ],
+    "name": "ModSummaryTooLong",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "length",
+        "type": "uint256"
+      }
+    ],
+    "name": "ModSummaryTooShort",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NoHooksSpecified",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "minFee",
+        "type": "uint256"
+      }
+    ],
+    "name": "ReferrerFeeTooLow",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "TransferFailed",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "Unauthorized",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "mod",
+        "type": "address"
+      }
+    ],
+    "name": "ModPublished",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "mod",
+        "type": "address"
+      }
+    ],
+    "name": "ModUpdated",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "burnedFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "referrer",
+        "type": "address"
+      }
+    ],
+    "name": "getFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "mod",
+        "type": "address"
+      }
+    ],
+    "name": "getMod",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "mod",
+            "type": "address"
+          },
+          {
+            "internalType": "address payable",
+            "name": "seller",
+            "type": "address"
+          },
+          {
+            "internalType": "uint64",
+            "name": "publishedAt",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint64",
+            "name": "updatedAt",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint256",
+            "name": "price",
+            "type": "uint256"
+          },
+          {
+            "internalType": "enum ITotemTypes.Hook[]",
+            "name": "hooks",
+            "type": "uint8[]"
+          },
+          {
+            "components": [
+              {
+                "internalType": "string",
+                "name": "name",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "summary",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "markdown",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "image",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "website",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "websiteTickerPath",
+                "type": "string"
+              },
+              {
+                "internalType": "bool",
+                "name": "isMinter",
+                "type": "bool"
+              },
+              {
+                "internalType": "bool",
+                "name": "needsUnlimited",
+                "type": "bool"
+              }
+            ],
+            "internalType": "struct ITotemTypes.ModDetails",
+            "name": "details",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct ITotemTypes.Mod",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "mod",
+        "type": "address"
+      }
+    ],
+    "name": "getModFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "mod",
+        "type": "address"
+      }
+    ],
+    "name": "getModRequiredActions",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "signature",
+            "type": "string"
+          },
+          {
+            "components": [
+              {
+                "internalType": "string",
+                "name": "name",
+                "type": "string"
+              },
+              {
+                "internalType": "enum ITotemTypes.ModActionFieldInputMode",
+                "name": "mode",
+                "type": "uint8"
+              },
+              {
+                "internalType": "string",
+                "name": "value",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "description",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "min",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "max",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bool",
+                "name": "isTotems",
+                "type": "bool"
+              }
+            ],
+            "internalType": "struct ITotemTypes.ModActionField[]",
+            "name": "inputFields",
+            "type": "tuple[]"
+          },
+          {
+            "internalType": "uint256",
+            "name": "cost",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "reason",
+            "type": "string"
+          }
+        ],
+        "internalType": "struct ITotemTypes.ModRequiredAction[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "contracts",
+        "type": "address[]"
+      }
+    ],
+    "name": "getMods",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "mod",
+            "type": "address"
+          },
+          {
+            "internalType": "address payable",
+            "name": "seller",
+            "type": "address"
+          },
+          {
+            "internalType": "uint64",
+            "name": "publishedAt",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint64",
+            "name": "updatedAt",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint256",
+            "name": "price",
+            "type": "uint256"
+          },
+          {
+            "internalType": "enum ITotemTypes.Hook[]",
+            "name": "hooks",
+            "type": "uint8[]"
+          },
+          {
+            "components": [
+              {
+                "internalType": "string",
+                "name": "name",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "summary",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "markdown",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "image",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "website",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "websiteTickerPath",
+                "type": "string"
+              },
+              {
+                "internalType": "bool",
+                "name": "isMinter",
+                "type": "bool"
+              },
+              {
+                "internalType": "bool",
+                "name": "needsUnlimited",
+                "type": "bool"
+              }
+            ],
+            "internalType": "struct ITotemTypes.ModDetails",
+            "name": "details",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct ITotemTypes.Mod[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "contracts",
+        "type": "address[]"
+      }
+    ],
+    "name": "getModsFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "mod",
+        "type": "address"
+      }
+    ],
+    "name": "getSupportedHooks",
+    "outputs": [
+      {
+        "internalType": "enum ITotemTypes.Hook[]",
+        "name": "",
+        "type": "uint8[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "mod",
+        "type": "address"
+      }
+    ],
+    "name": "isUnlimitedMinter",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint32",
+        "name": "perPage",
+        "type": "uint32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "cursor",
+        "type": "uint256"
+      }
+    ],
+    "name": "listMods",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "mod",
+            "type": "address"
+          },
+          {
+            "internalType": "address payable",
+            "name": "seller",
+            "type": "address"
+          },
+          {
+            "internalType": "uint64",
+            "name": "publishedAt",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint64",
+            "name": "updatedAt",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint256",
+            "name": "price",
+            "type": "uint256"
+          },
+          {
+            "internalType": "enum ITotemTypes.Hook[]",
+            "name": "hooks",
+            "type": "uint8[]"
+          },
+          {
+            "components": [
+              {
+                "internalType": "string",
+                "name": "name",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "summary",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "markdown",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "image",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "website",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "websiteTickerPath",
+                "type": "string"
+              },
+              {
+                "internalType": "bool",
+                "name": "isMinter",
+                "type": "bool"
+              },
+              {
+                "internalType": "bool",
+                "name": "needsUnlimited",
+                "type": "bool"
+              }
+            ],
+            "internalType": "struct ITotemTypes.ModDetails",
+            "name": "details",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct ITotemTypes.Mod[]",
+        "name": "mods_",
+        "type": "tuple[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "nextCursor",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "hasMore",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "minBaseFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "modList",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "mod",
+        "type": "address"
+      },
+      {
+        "internalType": "enum ITotemTypes.Hook[]",
+        "name": "hooks",
+        "type": "uint8[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "price",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "summary",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "markdown",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "image",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "website",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "websiteTickerPath",
+            "type": "string"
+          },
+          {
+            "internalType": "bool",
+            "name": "isMinter",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "needsUnlimited",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct ITotemTypes.ModDetails",
+        "name": "details",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "signature",
+            "type": "string"
+          },
+          {
+            "components": [
+              {
+                "internalType": "string",
+                "name": "name",
+                "type": "string"
+              },
+              {
+                "internalType": "enum ITotemTypes.ModActionFieldInputMode",
+                "name": "mode",
+                "type": "uint8"
+              },
+              {
+                "internalType": "string",
+                "name": "value",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "description",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "min",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "max",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bool",
+                "name": "isTotems",
+                "type": "bool"
+              }
+            ],
+            "internalType": "struct ITotemTypes.ModActionField[]",
+            "name": "inputFields",
+            "type": "tuple[]"
+          },
+          {
+            "internalType": "uint256",
+            "name": "cost",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "reason",
+            "type": "string"
+          }
+        ],
+        "internalType": "struct ITotemTypes.ModRequiredAction[]",
+        "name": "requiredActions",
+        "type": "tuple[]"
+      },
+      {
+        "internalType": "address payable",
+        "name": "referrer",
+        "type": "address"
+      }
+    ],
+    "name": "publish",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "fee",
+        "type": "uint256"
+      }
+    ],
+    "name": "setReferrerFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "mod",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "newPrice",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "summary",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "markdown",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "image",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "website",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "websiteTickerPath",
+            "type": "string"
+          },
+          {
+            "internalType": "bool",
+            "name": "isMinter",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "needsUnlimited",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct ITotemTypes.ModDetails",
+        "name": "details",
+        "type": "tuple"
+      }
+    ],
+    "name": "update",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "mod",
+        "type": "address"
+      },
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "signature",
+            "type": "string"
+          },
+          {
+            "components": [
+              {
+                "internalType": "string",
+                "name": "name",
+                "type": "string"
+              },
+              {
+                "internalType": "enum ITotemTypes.ModActionFieldInputMode",
+                "name": "mode",
+                "type": "uint8"
+              },
+              {
+                "internalType": "string",
+                "name": "value",
+                "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "description",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "min",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "max",
+                "type": "uint256"
+              },
+              {
+                "internalType": "bool",
+                "name": "isTotems",
+                "type": "bool"
+              }
+            ],
+            "internalType": "struct ITotemTypes.ModActionField[]",
+            "name": "inputFields",
+            "type": "tuple[]"
+          },
+          {
+            "internalType": "uint256",
+            "name": "cost",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "reason",
+            "type": "string"
+          }
+        ],
+        "internalType": "struct ITotemTypes.ModRequiredAction[]",
+        "name": "requiredActions",
+        "type": "tuple[]"
+      }
+    ],
+    "name": "updateRequiredActions",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

@@ -1,0 +1,36 @@
+deployer: "0xc1937197F577F46462083c8271a70051E22a7810"
+rpcEnvVar: "BASE_SEPOLIA_RPC_URL"
+wsRpcEnvVar: "BASE_SEPOLIA_WS_URL"
+explorerUrl: "https://api.basescan.org/api/v2"
+explorerApiKeyEnvVar: "ETHERSCAN_API_KEY"
+minBaseFee: "0.0000000001 ether"
+burnedFee: "0.0000000001 ether"
+
+referrers:
+  - address: "0xc1937197F577F46462083c8271a70051E22a7810"
+    fee: "0.0000000001 ether"
+
+mods:
+  - UnlimitedMinterMod
+  - MinerMod
+publish:
+  - name: UnlimitedMinterMod
+
+totems:
+  - tickers: BULL, PURE, CHAD, YOLO, DIY, SIM, BUIDL, RANKED, DARK, LIGHT, MEME, FUN, VIP, DOGS, CATS
+    config: SIM
+
+simulation:
+  - mintAmount: 100
+  - minEthBalance: "0.00000030769507635 ether"
+  - fundingAmount: "0.00000030769507635 ether"
+  - maxSpend:      "0.00009999999999999 ether"
+    #               0.000470121135499841
+  - staggerMs: 100
+  - randomDelayMs: 100
+  - weightMint: 45
+  - weightTransfer: 45
+  - weightBurn: 10
+
+#- 0.00000030769507635
+#- 0.000473170563532534

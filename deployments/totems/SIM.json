@@ -1,0 +1,22 @@
+{
+  "decimals": 18,
+  "name": "Simulator Totem",
+  "description": "Used in test simulations for leaderboards and other features.",
+  "image": "bafkreifs6ay45vzioyj4eucgrzw7oi3bwdbwt2ah2nsj3zsrpwjm3hhrka",
+  "website": "https://totems.fun",
+  "allocations": [
+    {
+      "recipient": "UnlimitedMinterMod",
+      "isMinter": true,
+      "amount": "0",
+      "label": "Minter"
+    }
+  ],
+  "mods": {
+    "transfer": [],
+    "mint": ["UnlimitedMinterMod"],
+    "burn": [],
+    "created": [],
+    "transferOwnership": []
+  }
+}

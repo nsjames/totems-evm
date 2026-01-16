@@ -1,0 +1,49 @@
+{
+  "name": "totems-evm",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "MIT & AGPL-3.0",
+  "author": "nsjames",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nsjames/totems-evm"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ignition": "^3.0.6",
+    "@nomicfoundation/hardhat-toolbox-viem": "^5.0.1",
+    "@nomicfoundation/hardhat-verify": "^3.0.8",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.19.3",
+    "dotenv": "^17.2.3",
+    "forge-std": "foundry-rs/forge-std#v1.11.0",
+    "hardhat": "^3.1.2",
+    "typescript": "~5.8.0",
+    "viem": "^2.43.5"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.4.0",
+    "js-yaml": "^4.1.1"
+  },
+  "scripts": {
+    "build": "npx hardhat build",
+    "build:prod": "npx hardhat build --build-profile production --no-tests",
+    "generate:interfaces": "bun scripts/generate-interfaces.ts",
+    "prepare": "bun build:prod && bun generate:interfaces && bun abis && bun package:build",
+    "abis": "bun scripts/extract-abis.ts",
+    "test": "hardhat test",
+    "deploy": "bun scripts/deploy.ts",
+    "inspect": "bun scripts/inspect-mod.ts",
+    "read": "bun scripts/read-state.ts",
+    "deploy:hardhat": "bun prepare && bun scripts/deploy.ts hardhat",
+    "deploy:sepolia": "bun prepare && bun scripts/deploy.ts sepolia",
+    "deploy:base-sepolia": "bun prepare && bun scripts/deploy.ts base-sepolia",
+    "gas": "RUN_GAS_CALCS=1 npx hardhat test test/Gas.spec.ts",
+    "coverage": "npx hardhat test --coverage",
+    "sizes": "npx hardhat build --build-profile production && bun scripts/contract-sizes.ts",
+    "package:build": "bun scripts/build-package.ts",
+    "publish:npm": "npm run package:build && cd package && npm publish --access public",
+    "publish:foundry": "bun scripts/publish-foundry.ts",
+    "simulate": "bun simulations/simulate.ts",
+    "add:chain": "bun scripts/add-chain.ts"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "hooks": [0, 3],
+  "price": "0",
+  "details": {
+    "name": "Miner",
+    "summary": "Mine totems over time with configurable rates and daily limits.",
+    "markdown": "",
+    "image": "ipfs://",
+    "website": "https://totems.fun",
+    "websiteTickerPath": "/mine/{ticker}",
+    "isMinter": true,
+    "needsUnlimited": false
+  },
+  "requiredActions": [
+    {
+      "signature": "setup(string ticker, uint256 _totemsPerMine, uint256 _userMaxPerDay)",
+      "inputFields": [
+        {
+          "name": "ticker",
+          "mode": 2,
+          "value": "",
+          "description": "The totem ticker",
+          "min": "0",
+          "max": "0",
+          "isTotems": false
+        },
+        {
+          "name": "_totemsPerMine",
+          "mode": 0,
+          "value": "",
+          "description": "Amount of totems to mine per transaction",
+          "min": "1",
+          "max": "0",
+          "isTotems": true
+        },
+        {
+          "name": "_userMaxPerDay",
+          "mode": 0,
+          "value": "",
+          "description": "Maximum totems a user can mine per day",
+          "min": "1",
+          "max": "0",
+          "isTotems": true
+        }
+      ],
+      "cost": "0",
+      "reason": "Configure mining parameters before mining can begin"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "hooks": [1],
+  "price": "0",
+  "details": {
+    "name": "Unlimited Minter",
+    "summary": "Mints new supply into a totem.",
+    "markdown": "# Unlimited Minter\r\nTests minting new supply into a totem. ",
+    "image": "https://totems.mypinata.cloud/ipfs/bafkreiclqnwiym7gj7uo7xkewxeczeqiftcczyxikht5zkymrlnwqzpx2e",
+    "website": "https://mods.totems.fun",
+    "websiteTickerPath": "/unlimited-minter/{ticker}",
+    "isMinter": true,
+    "needsUnlimited": true
+  },
+  "requiredActions": []
+}
