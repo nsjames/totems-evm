@@ -18,10 +18,23 @@ import { getChain, getRpcUrl, getWsRpcUrl, getPrivateKeyEnvVar, getSimulationCon
 
 // Parse args: bun simulate <network> <numAccounts> <speed>
 // speed = delay in ms between operations (higher = slower)
+// speed can be a single number (e.g., "500") or a range (e.g., "500-5000")
 const args = process.argv.slice(2);
 const network = args[0] || "sepolia";
 const numAccountsArg = args[1] || "10";
-const speedDelayMs = parseInt(args[2] || "0", 10);
+const speedArg = args[2] || "0";
+
+// Parse speed: either "500" or "500-5000"
+let speedDelayMin = 0;
+let speedDelayMax = 0;
+if (speedArg.includes("-")) {
+  const [min, max] = speedArg.split("-").map((s) => parseInt(s, 10));
+  speedDelayMin = min;
+  speedDelayMax = max;
+} else {
+  speedDelayMin = parseInt(speedArg, 10);
+  speedDelayMax = speedDelayMin;
+}
 
 // Load addresses and ABI for the specified network
 const addressesPath = path.join(import.meta.dirname, "..", "deployments", "addresses", `${network}.json`);
@@ -138,8 +151,9 @@ function log(accountIndex: number, msg: string) {
 }
 
 async function operationDelay() {
-  // Apply speed delay + random delay
-  const totalDelay = speedDelayMs + Math.random() * simConfig.randomDelayMs;
+  // Apply speed delay (fixed or random range) + config random delay
+  const speedDelay = speedDelayMin + Math.random() * (speedDelayMax - speedDelayMin);
+  const totalDelay = speedDelay + Math.random() * simConfig.randomDelayMs;
   if (totalDelay > 0) {
     await new Promise((r) => setTimeout(r, totalDelay));
   }
@@ -346,7 +360,8 @@ async function main() {
   console.log(`  Min ETH balance: ${formatEther(simConfig.minEthBalance)} ETH`);
   console.log(`  Funding amount: ${formatEther(simConfig.fundingAmount)} ETH`);
   console.log(`  Max spend: ${simConfig.maxSpend > 0n ? formatEther(simConfig.maxSpend) + " ETH" : "unlimited"}`);
-  console.log(`  Stagger: ${simConfig.staggerMs}ms, Random delay: ${simConfig.randomDelayMs}ms, Speed delay: ${speedDelayMs}ms`);
+  const speedDisplay = speedDelayMin === speedDelayMax ? `${speedDelayMin}ms` : `${speedDelayMin}-${speedDelayMax}ms`;
+  console.log(`  Stagger: ${simConfig.staggerMs}ms, Random delay: ${simConfig.randomDelayMs}ms, Speed: ${speedDisplay}`);
   console.log(`  Weights: mint=${simConfig.weights.mint}, transfer=${simConfig.weights.transfer}, burn=${simConfig.weights.burn}`);
 
   const publicClient = createPublicClient({

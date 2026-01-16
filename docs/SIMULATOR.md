@@ -11,14 +11,15 @@ bun simulate <network> <num-accounts> [speed]
 **Arguments:**
 - `network` - Target network (e.g., `sepolia`, `base-sepolia`)
 - `num-accounts` - Number of parallel accounts to run
-- `speed` - (Optional) Delay in ms between operations. Higher = slower. Default: 0
+- `speed` - (Optional) Delay in ms between operations. Can be a fixed value or a range. Default: 0
 
 **Examples:**
 ```bash
-bun simulate sepolia 10        # 10 accounts, no extra delay
-bun simulate base-sepolia 5    # 5 accounts on Base Sepolia
-bun simulate sepolia 10 200    # 10 accounts, 200ms delay between operations
-bun simulate sepolia 5 1000    # 5 accounts, 1 second delay (slow mode)
+bun simulate sepolia 10           # 10 accounts, no extra delay
+bun simulate base-sepolia 5       # 5 accounts on Base Sepolia
+bun simulate sepolia 10 200       # 10 accounts, 200ms fixed delay
+bun simulate sepolia 5 500-5000   # 5 accounts, random 500ms-5s delay
+bun simulate sepolia 10 1000-3000 # 10 accounts, random 1-3s delay
 ```
 
 ## Requirements
