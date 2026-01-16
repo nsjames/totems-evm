@@ -1,1 +1,27 @@
-{}
+{
+  "chainId": 84532,
+  "referrer": "0xc1937197F577F46462083c8271a70051E22a7810",
+  "ModMarket": "0x4ee91ab6a296954d6f71c93c5397bd5c3bde9054",
+  "ProxyMod": "0xd7bd85f87dcbfaee78a82b1e9176a6626f8a14dd",
+  "Totems": "0x79fb5434201d70c5729abfec733b2da685010a22",
+  "UnlimitedMinterMod": "0x62e4a45b24651cfbc49a76a16c47d84c60b8823e",
+  "MinerMod": "0x656cffcb95f08d8058bc246bddba457237da3f2d",
+  "proxyModInitialized": true,
+  "totems": [
+    "BULL",
+    "PURE",
+    "CHAD",
+    "YOLO",
+    "DIY",
+    "SIM",
+    "BUIDL",
+    "RANKED",
+    "DARK",
+    "LIGHT",
+    "MEME",
+    "FUN",
+    "VIP",
+    "DOGS",
+    "CATS"
+  ]
+}

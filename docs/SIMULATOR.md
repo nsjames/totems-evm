@@ -5,13 +5,20 @@ The simulator generates realistic on-chain activity by running multiple accounts
 ## Usage
 
 ```bash
-bun simulate <network> <num-accounts>
+bun simulate <network> <num-accounts> [speed]
 ```
+
+**Arguments:**
+- `network` - Target network (e.g., `sepolia`, `base-sepolia`)
+- `num-accounts` - Number of parallel accounts to run
+- `speed` - (Optional) Delay in ms between operations. Higher = slower. Default: 0
 
 **Examples:**
 ```bash
-bun simulate sepolia 10      # 10 accounts on Sepolia
-bun simulate base-sepolia 5  # 5 accounts on Base Sepolia
+bun simulate sepolia 10        # 10 accounts, no extra delay
+bun simulate base-sepolia 5    # 5 accounts on Base Sepolia
+bun simulate sepolia 10 200    # 10 accounts, 200ms delay between operations
+bun simulate sepolia 5 1000    # 5 accounts, 1 second delay (slow mode)
 ```
 
 ## Requirements

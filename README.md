@@ -70,13 +70,13 @@ test/           - Test files
 
 ## Networks
 
-| Network      | Status   |
-|--------------|----------|
-| Base Sepolia | Deployed |
-| Sepolia      | Deployed |
-| Ethereum     | Planned  |
-| Base         | Planned  |
-| BSC          | Planned  |
+| Network      | Status       |
+|--------------|--------------|
+| Base Sepolia | Deployed     |
+| Sepolia      | Old Versions |
+| Ethereum     | Planned      |
+| Base         | Planned      |
+| BSC          | Planned      |
 
 Contract addresses are available in `deployments/addresses/`.
 

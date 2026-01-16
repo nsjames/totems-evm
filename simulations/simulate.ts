@@ -16,10 +16,12 @@ import * as fs from "fs";
 import * as path from "path";
 import { getChain, getRpcUrl, getWsRpcUrl, getPrivateKeyEnvVar, getSimulationConfig, type SimulationConfig } from "../deployments/configs/index.js";
 
-// Parse args: bun simulate <network> <numAccounts>
+// Parse args: bun simulate <network> <numAccounts> <speed>
+// speed = delay in ms between operations (higher = slower)
 const args = process.argv.slice(2);
 const network = args[0] || "sepolia";
 const numAccountsArg = args[1] || "10";
+const speedDelayMs = parseInt(args[2] || "0", 10);
 
 // Load addresses and ABI for the specified network
 const addressesPath = path.join(import.meta.dirname, "..", "deployments", "addresses", `${network}.json`);
@@ -135,6 +137,14 @@ function log(accountIndex: number, msg: string) {
   console.log(`[${accountIndex.toString().padStart(2, "0")}] ${msg}`);
 }
 
+async function operationDelay() {
+  // Apply speed delay + random delay
+  const totalDelay = speedDelayMs + Math.random() * simConfig.randomDelayMs;
+  if (totalDelay > 0) {
+    await new Promise((r) => setTimeout(r, totalDelay));
+  }
+}
+
 async function runAccountLoop(
   accountIndex: number,
   account: PrivateKeyAccount,
@@ -211,7 +221,7 @@ async function runAccountLoop(
 
         const current = balances.get(addr)!.get(ticker) || 0n;
         balances.get(addr)!.set(ticker, current + mintAmount);
-        await new Promise((r) => setTimeout(r, Math.random() * simConfig.randomDelayMs));
+        await operationDelay();
       } else if (action === "transfer") {
         const balance = balances.get(addr)!.get(ticker) || 0n;
 
@@ -228,7 +238,7 @@ async function runAccountLoop(
           log(accountIndex, `  -> ${hash}`);
           stats.mints++;
           balances.get(addr)!.set(ticker, mintAmount);
-          await new Promise((r) => setTimeout(r, Math.random() * simConfig.randomDelayMs));
+          await operationDelay();
           continue;
         }
 
@@ -250,7 +260,7 @@ async function runAccountLoop(
         balances.get(addr)!.set(ticker, balance - transferAmount);
         const recipientBalance = balances.get(recipient.address)!.get(ticker) || 0n;
         balances.get(recipient.address)!.set(ticker, recipientBalance + transferAmount);
-        await new Promise((r) => setTimeout(r, Math.random() * simConfig.randomDelayMs));
+        await operationDelay();
       } else if (action === "burn") {
         const balance = balances.get(addr)!.get(ticker) || 0n;
 
@@ -267,7 +277,7 @@ async function runAccountLoop(
           log(accountIndex, `  -> ${hash}`);
           stats.mints++;
           balances.get(addr)!.set(ticker, mintAmount);
-          await new Promise((r) => setTimeout(r, Math.random() * simConfig.randomDelayMs));
+          await operationDelay();
           continue;
         }
 
@@ -286,7 +296,7 @@ async function runAccountLoop(
         stats.burns++;
 
         balances.get(addr)!.set(ticker, balance - burnAmount);
-        await new Promise((r) => setTimeout(r, Math.random() * simConfig.randomDelayMs));
+        await operationDelay();
       }
     } catch (err: any) {
       log(accountIndex, `ERROR [${ticker}]: ${err.message?.slice(0, 80) || err}`);
@@ -336,7 +346,7 @@ async function main() {
   console.log(`  Min ETH balance: ${formatEther(simConfig.minEthBalance)} ETH`);
   console.log(`  Funding amount: ${formatEther(simConfig.fundingAmount)} ETH`);
   console.log(`  Max spend: ${simConfig.maxSpend > 0n ? formatEther(simConfig.maxSpend) + " ETH" : "unlimited"}`);
-  console.log(`  Stagger: ${simConfig.staggerMs}ms, Random delay: ${simConfig.randomDelayMs}ms`);
+  console.log(`  Stagger: ${simConfig.staggerMs}ms, Random delay: ${simConfig.randomDelayMs}ms, Speed delay: ${speedDelayMs}ms`);
   console.log(`  Weights: mint=${simConfig.weights.mint}, transfer=${simConfig.weights.transfer}, burn=${simConfig.weights.burn}`);
 
   const publicClient = createPublicClient({
