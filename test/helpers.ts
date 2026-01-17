@@ -184,6 +184,29 @@ export const Hook = {
     TransferOwnership: 4,
 } as const;
 
+export enum ModActionFieldInputMode {
+    DYNAMIC = 0,
+    STATIC = 1,
+    TOTEM = 2,
+}
+
+export interface ModActionField {
+    name: string
+    mode: ModActionFieldInputMode
+    value: string
+    description: string
+    min: bigint
+    max: bigint
+    isTotems: boolean
+}
+
+export interface ModRequiredAction {
+    signature: string
+    inputFields: ModActionField[]
+    cost: bigint
+    reason: string
+}
+
 export const setupTotemsTest = async (minBaseFee: bigint = MIN_BASE_FEE, burnedFee: bigint = BURNED_FEE) => {
     const { viem } = await network.connect() as any;
     const publicClient = await viem.getPublicClient();
