@@ -1,6 +1,6 @@
 {
   "name": "@totems/evm",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "type": "module",
   "description": "Totems EVM smart contracts for building modular token systems",
   "author": "nsjames",
@@ -20,21 +20,30 @@
     "smart-contracts",
     "totems"
   ],
+  "bin": {
+    "validate": "./bin/validate.js"
+  },
   "files": [
     "contracts/**/*.sol",
     "interfaces/**/*.sol",
     "mods/**/*.sol",
     "test/**/*",
-    "artifacts/**/*"
+    "artifacts/**/*",
+    "bin/**/*",
+    "validator/**/*"
   ],
   "exports": {
     "./test/helpers": {
       "types": "./test/helpers.d.ts",
       "default": "./test/helpers.ts"
     },
+    "./validator": "./validator/index.js",
     "./contracts/*": "./contracts/*",
     "./interfaces/*": "./interfaces/*",
     "./mods/*": "./mods/*"
+  },
+  "dependencies": {
+    "solc": "^0.8.28"
   },
   "peerDependencies": {
     "hardhat": "^3.1.4",

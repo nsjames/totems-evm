@@ -1,5 +1,37 @@
 import {network} from "hardhat";
-import { keccak256, toBytes, decodeErrorResult, Abi } from "viem";
+import { keccak256, toBytes, decodeErrorResult, Abi, getContract } from "viem";
+import { readFileSync, existsSync } from "fs";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
+
+// Detect if we're running from the package or the main project
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const packageArtifactsDir = join(__dirname, '..', 'artifacts');
+const isPackage = existsSync(join(packageArtifactsDir, 'ProxyMod.json'));
+
+function loadArtifact(name: string) {
+    if (isPackage) {
+        // Load from package artifacts
+        const path = join(packageArtifactsDir, `${name}.json`);
+        return JSON.parse(readFileSync(path, 'utf-8'));
+    }
+    // Load from main project's hardhat artifacts
+    const paths: Record<string, string> = {
+        'ProxyMod': 'artifacts/contracts/mods/ProxyMod.sol/ProxyMod.json',
+        'ModMarket': 'artifacts/contracts/market/ModMarket.sol/ModMarket.json',
+        'Totems': 'artifacts/contracts/totems/Totems.sol/Totems.json',
+        'ITotems': 'artifacts/contracts/interfaces/ITotems.sol/ITotems.json',
+        'IMarket': 'artifacts/contracts/interfaces/IMarket.sol/IMarket.json',
+    };
+    const path = join(__dirname, '..', paths[name]);
+    return JSON.parse(readFileSync(path, 'utf-8'));
+}
+
+const ProxyModArtifact = loadArtifact('ProxyMod');
+const ModMarketArtifact = loadArtifact('ModMarket');
+const TotemsArtifact = loadArtifact('Totems');
+const ITotemsArtifact = loadArtifact('ITotems');
+const IMarketArtifact = loadArtifact('IMarket');
 
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
@@ -140,44 +172,71 @@ export const ErrorSelectors = {
     InsufficientBalance: errorSelector("InsufficientBalance(uint256,uint256)"),
     CantSetLicense: errorSelector("CantSetLicense()"),
 };
+
 export const MIN_BASE_FEE = 500000000000000n; // 0.0005 ether
 export const BURNED_FEE = 100000000000000n; // 0.0001 ether
 
-export enum Hook {
-    Created = 0,
-    Mint = 1,
-    Burn = 2,
-    Transfer = 3,
-    TransferOwnership = 4,
-}
+export const Hook = {
+    Created: 0,
+    Mint: 1,
+    Burn: 2,
+    Transfer: 3,
+    TransferOwnership: 4,
+} as const;
 
 export const setupTotemsTest = async (minBaseFee: bigint = MIN_BASE_FEE, burnedFee: bigint = BURNED_FEE) => {
-    const { viem } = await network.connect();
+    const { viem } = await network.connect() as any;
     const publicClient = await viem.getPublicClient();
-    // @ts-ignore
     const walletClient = await viem.getWalletClient();
 
     const addresses = await walletClient.getAddresses();
     const proxyModInitializer = addresses[0];
-    const proxyMod = await viem.deployContract("ProxyMod", [
-        proxyModInitializer
-    ]);
 
-    let market = await viem.deployContract("ModMarket", [minBaseFee, burnedFee]);
-    let totems:any = await viem.deployContract("Totems", [
-        market.address,
-        proxyMod.address,
-        minBaseFee,
-        burnedFee,
-    ]);
+    // Deploy using pre-built artifacts from the package
+    const proxyModHash = await walletClient.deployContract({
+        abi: ProxyModArtifact.abi,
+        bytecode: ProxyModArtifact.bytecode,
+        args: [proxyModInitializer],
+        account: proxyModInitializer,
+    });
+    const proxyModReceipt = await publicClient.waitForTransactionReceipt({ hash: proxyModHash });
+    const proxyMod = getContract({
+        address: proxyModReceipt.contractAddress!,
+        abi: ProxyModArtifact.abi,
+        client: { public: publicClient, wallet: walletClient },
+    }) as any;
 
+    const marketHash = await walletClient.deployContract({
+        abi: ModMarketArtifact.abi,
+        bytecode: ModMarketArtifact.bytecode,
+        args: [minBaseFee, burnedFee],
+        account: proxyModInitializer,
+    });
+    const marketReceipt = await publicClient.waitForTransactionReceipt({ hash: marketHash });
 
-    // using these to validate the interfaces
-    totems = await viem.getContractAt("ITotems", totems.address);
-    // @ts-ignore
-    market = await viem.getContractAt("IMarket", market.address);
-    // initialize proxy mod
-    await proxyMod.write.initialize([totems.address, market.address], { account: proxyModInitializer });
+    const totemsHash = await walletClient.deployContract({
+        abi: TotemsArtifact.abi,
+        bytecode: TotemsArtifact.bytecode,
+        args: [marketReceipt.contractAddress!, proxyModReceipt.contractAddress!, minBaseFee, burnedFee],
+        account: proxyModInitializer,
+    });
+    const totemsReceipt = await publicClient.waitForTransactionReceipt({ hash: totemsHash });
+
+    // Use interface ABIs for the contract instances
+    const totems = getContract({
+        address: totemsReceipt.contractAddress!,
+        abi: ITotemsArtifact.abi,
+        client: { public: publicClient, wallet: walletClient },
+    });
+
+    const market = getContract({
+        address: marketReceipt.contractAddress!,
+        abi: IMarketArtifact.abi,
+        client: { public: publicClient, wallet: walletClient },
+    });
+
+    // Initialize proxy mod
+    await proxyMod.write.initialize([totemsReceipt.contractAddress!, marketReceipt.contractAddress!], { account: proxyModInitializer });
 
     return {
         viem,

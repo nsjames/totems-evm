@@ -24,7 +24,7 @@ simulation:
   - mintAmount: 100
   - minEthBalance: "0.00000030769507635 ether"
   - fundingAmount: "0.00000030769507635 ether"
-  - maxSpend:      "0.00009999999999999 ether"
+  - maxSpend:      "0.00209999999999999 ether"
     #               0.000470121135499841
   - staggerMs: 100
   - randomDelayMs: 100

@@ -135,7 +135,7 @@ describe("Reverts", async function () {
                     modDetails(),
                     [],
                     ZERO_ADDRESS,
-                ], { value: publishFee });
+                ], { value: publishFee, account: seller });
             },
             /InvalidContractAddress/,
             "Should revert with InvalidContractAddress error"
@@ -152,7 +152,7 @@ describe("Reverts", async function () {
                     modDetails(),
                     [],
                     ZERO_ADDRESS,
-                ], { value: publishFee });
+                ], { value: publishFee, account: seller });
             },
             /ModAlreadyPublished/,
             "Should revert with ModAlreadyPublished error"
@@ -174,7 +174,7 @@ describe("Reverts", async function () {
                     modDetails({ name: "" }),
                     [],
                     ZERO_ADDRESS,
-                ], { value: publishFee });
+                ], { value: publishFee, account: seller });
             },
             /EmptyModName/,
             "Should revert with EmptyModName error"
@@ -196,7 +196,7 @@ describe("Reverts", async function () {
                     modDetails({ name: "AB" }),
                     [],
                     ZERO_ADDRESS,
-                ], { value: publishFee });
+                ], { value: publishFee, account: seller });
             },
             /ModNameTooShort/,
             "Should revert with ModNameTooShort error"
@@ -219,7 +219,7 @@ describe("Reverts", async function () {
                     modDetails({ name: longName }),
                     [],
                     ZERO_ADDRESS,
-                ], { value: publishFee });
+                ], { value: publishFee, account: seller });
             },
             /ModNameTooLong/,
             "Should revert with ModNameTooLong error"
@@ -241,7 +241,7 @@ describe("Reverts", async function () {
                     modDetails({ summary: "" }),
                     [],
                     ZERO_ADDRESS,
-                ], { value: publishFee });
+                ], { value: publishFee, account: seller });
             },
             /EmptyModSummary/,
             "Should revert with EmptyModSummary error"
@@ -263,7 +263,7 @@ describe("Reverts", async function () {
                     modDetails({ summary: "Too short" }),
                     [],
                     ZERO_ADDRESS,
-                ], { value: publishFee });
+                ], { value: publishFee, account: seller });
             },
             /ModSummaryTooShort/,
             "Should revert with ModSummaryTooShort error"
@@ -286,7 +286,7 @@ describe("Reverts", async function () {
                     modDetails({ summary: longSummary }),
                     [],
                     ZERO_ADDRESS,
-                ], { value: publishFee });
+                ], { value: publishFee, account: seller });
             },
             /ModSummaryTooLong/,
             "Should revert with ModSummaryTooLong error"
@@ -308,7 +308,7 @@ describe("Reverts", async function () {
                     modDetails({ image: "" }),
                     [],
                     ZERO_ADDRESS,
-                ], { value: publishFee });
+                ], { value: publishFee, account: seller });
             },
             /EmptyModImage/,
             "Should revert with EmptyModImage error"
@@ -330,7 +330,7 @@ describe("Reverts", async function () {
                     modDetails(),
                     [],
                     ZERO_ADDRESS,
-                ], { value: publishFee });
+                ], { value: publishFee, account: seller });
             },
             /NoHooksSpecified/,
             "Should revert with NoHooksSpecified error"
@@ -352,7 +352,7 @@ describe("Reverts", async function () {
                     modDetails(),
                     [],
                     ZERO_ADDRESS,
-                ], { value: publishFee });
+                ], { value: publishFee, account: seller });
             },
             "Transaction should revert with InvalidHook error"
         );
@@ -373,7 +373,7 @@ describe("Reverts", async function () {
                     modDetails(),
                     [],
                     ZERO_ADDRESS,
-                ], { value: publishFee });
+                ], { value: publishFee, account: seller });
             },
             /DuplicateHook/,
             "Should revert with DuplicateHook error"
@@ -395,7 +395,7 @@ describe("Reverts", async function () {
                     modDetails(),
                     [],
                     ZERO_ADDRESS,
-                ], { value: 10n });
+                ], { value: 10n, account: seller });
             },
             /InsufficientFee/,
             "Should revert with InsufficientFee error"
@@ -444,7 +444,7 @@ describe("Reverts", async function () {
                 isMinter: true,
                 needsUnlimited: true,
             }),
-        ]);
+        ], { account: seller });
 
         const modInfo = await market.read.getMod([testMod.address]);
         assert(modInfo.price === 2_000_000n, "Mod price should be updated");
@@ -491,7 +491,7 @@ describe("Reverts", async function () {
                         image: "https://example.com/ghost.png",
                         websiteTickerPath: "/ghost",
                     }),
-                ]);
+                ], { account: seller });
             },
             /ModNotFound/,
             "Should revert with ModNotFound error"
@@ -534,7 +534,7 @@ describe("Reverts", async function () {
         ];
 
         // Update required actions
-        await market.write.updateRequiredActions([testMod.address, newRequiredActions]);
+        await market.write.updateRequiredActions([testMod.address, newRequiredActions], { account: seller });
 
         // Verify the update
         const updatedActions = await market.read.getModRequiredActions([testMod.address]);
@@ -546,7 +546,7 @@ describe("Reverts", async function () {
 
     it('Should clear required actions when updating with empty array', async function () {
         // Clear required actions by updating with empty array
-        await market.write.updateRequiredActions([testMod.address, []]);
+        await market.write.updateRequiredActions([testMod.address, []], { account: seller });
 
         // Verify cleared
         const clearedActions = await market.read.getModRequiredActions([testMod.address]);
@@ -583,7 +583,7 @@ describe("Reverts", async function () {
                 await market.write.updateRequiredActions([
                     buyer, // non-existent mod address
                     [],
-                ]);
+                ], { account: seller });
             },
             /ModNotFound/,
             "Should revert with ModNotFound error"

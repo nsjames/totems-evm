@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "../package/test",
+    "allowImportingTsExtensions": false
+  },
+  "include": ["../test/helpers.ts"]
+}

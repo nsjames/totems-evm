@@ -55,6 +55,24 @@ library TotemsLibrary {
         return ITotems(totems).isLicensed(ticker, mod);
     }
 
+    function isMinter(
+        address totems,
+        string calldata ticker,
+        address account
+    ) internal view returns (bool) {
+        bytes32 tickerBytes = tickerToBytes(ticker);
+        ITotemTypes.Totem memory totem = ITotems(totems).getTotem(ticker);
+
+        bool isMinter = false;
+        for (uint256 i = 0; i < totem.allocations.length; i++) {
+            if (totem.allocations[i].recipient == account && totem.allocations[i].isMinter) {
+                isMinter = true;
+                break;
+            }
+        }
+        return isMinter;
+    }
+
     /**
      * @notice Transfer tokens from this contract to another address
      * @dev The calling contract must hold the tokens and be authorized to transfer
